@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Wolf Online</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts: Roboto & Noto Sans JP -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Firebase SDK (Modular CDN) は app.js 側で import します -->
+</head>
+<body>
+    <div id="background-animation"></div>
+
+    <div id="app" class="glass-container">
+        
+        <!-- =========================
+             ホーム画面 (マッチング選択)
+             ========================= -->
+        <section id="screen-home" class="screen active">
+            <h1 class="neon-title">Word Wolf</h1>
+            <p class="subtitle">オンラインで誰とでも遊べる心理戦</p>
+            
+            <div class="action-card">
+                <h2>野良マッチング</h2>
+                <p>世界中の誰かとすぐに遊べます</p>
+                <button id="btn-random-match" class="btn primary">部屋を探す / 作る</button>
+            </div>
+
+            <div class="action-card">
+                <h2>フレンドと遊ぶ</h2>
+                <p>合言葉を決めて遊べます</p>
+                <input type="text" id="input-password" placeholder="合言葉を入力" class="input-light">
+                <button id="btn-password-match" class="btn secondary">参加 / 部屋を作る</button>
+            </div>
+        </section>
+
+        <!-- =========================
+             ロビー画面 (待機室)
+             ========================= -->
+        <section id="screen-lobby" class="screen hidden">
+            <h2 class="neon-title">LOBBY</h2>
+            <p id="lobby-status">参加者を待っています...</p>
+            <p class="room-info">ルームID: <span id="lobby-room-id"></span></p>
+            
+            <div class="players-list">
+                <h3>参加プレイヤー</h3>
+                <ul id="lobby-players"></ul>
+            </div>
+
+            <div class="lobby-actions">
+                <button id="btn-start-game" class="btn primary hidden">ゲーム開始</button>
+                <button id="btn-leave-lobby" class="btn exit">退出する</button>
+            </div>
+        </section>
+
+        <!-- =========================
+             ゲーム画面 (メイン)
+             ========================= -->
+        <section id="screen-game" class="screen hidden">
+            <div class="game-header">
+                <h2>あなたのお題</h2>
+                <div id="my-theme" class="theme-display blur-reveal">タップしてお題を見る</div>
+            </div>
+
+            <div class="tab-container">
+                <button class="tab-btn active" data-target="chat-panel">チャット</button>
+                <button class="tab-btn" data-target="qa-panel">質問＆回答 (推理用)</button>
+            </div>
+
+            <!-- チャットパネル -->
+            <div id="chat-panel" class="tab-panel active">
+                <div class="message-area" id="chat-messages">
+                    <!-- チャットメッセージが追加される -->
+                </div>
+                <div class="input-area">
+                    <input type="text" id="chat-input" placeholder="メッセージを入力...">
+                    <button id="btn-send-chat" class="btn primary small">送信</button>
+                </div>
+            </div>
+
+            <!-- Q&Aパネル -->
+            <div id="qa-panel" class="tab-panel hidden">
+                <div class="message-area" id="qa-messages">
+                    <!-- Q&Aが追加される -->
+                </div>
+                <div class="input-area qa-controls">
+                    <input type="text" id="qa-input-question" placeholder="誰にでも答えられる質問を入力...">
+                    <button id="btn-send-question" class="btn secondary small">質問する</button>
+                </div>
+            </div>
+
+            <div class="game-actions">
+                <button id="btn-vote-phase" class="btn warning">投票画面へ</button>
+            </div>
+        </section>
+
+        <!-- =========================
+             投票・結果画面
+             ========================= -->
+        <section id="screen-vote" class="screen hidden">
+            <h2 class="neon-title">VOTING</h2>
+            <p>誰がワードウルフだと思いますか？</p>
+            <ul id="vote-players" class="players-list">
+                <!-- 投票可能なプレイヤーが表示される -->
+            </ul>
+        </section>
+
+        <section id="screen-result" class="screen hidden">
+            <h2 class="neon-title" id="result-title">RESULT</h2>
+            <div id="result-details">
+                <p>市民のお題: <span id="result-citizen-theme"></span></p>
+                <p>ウルフのお題: <span id="result-wolf-theme"></span></p>
+            </div>
+            <ul id="result-players" class="players-list flex-column"></ul>
+            <button id="btn-back-home" class="btn primary">ホームへ戻る</button>
+        </section>
+
+    </div>
+
+    <!-- Firebaseの構成やロジック -->
+    <script type="module" src="app.js"></script>
+</body>
+</html>
